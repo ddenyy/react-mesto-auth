@@ -210,3 +210,7 @@
 @import url(./blocks/popup/__picture/popup__picture_access/popup__picture_access.css);
 
 @import url(./blocks/popup/__titile/popup__title_access/popup__title_access.css);
+
+@import url(./blocks/header/header__email/header__email.css);
+
+@import url(./blocks/header/header__info/header__info.css);

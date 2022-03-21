@@ -23,6 +23,7 @@ function Login ({handleLogin, unsuccessfulRegister}) {
     }
     handleLogin(email, password)
     .catch(e => console.log(e))
+    
     }
 
 
@@ -32,7 +33,7 @@ function Login ({handleLogin, unsuccessfulRegister}) {
           <form onSubmit={handleSubmit} name="form_register" className="form register__content">
               <input className="register__input" type="text" placeholder="Email" name="email" value={email} onChange={handleChange}></input>
               <input className="register__input" type="text" placeholder="пароль" name="password" value={password} onChange={handleChange}></input>
-            <button type="submit" className="register__button register__button_submit">Войти</button>
+            <button type="submit" className="register__button">Войти</button>
           </form>
         </div>
     );

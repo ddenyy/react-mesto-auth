@@ -52,7 +52,7 @@ function App() {
 
   const [succesRegister, setIssuccesRegister] = React.useState(false);
 
-  const [UserData, setUserData] = React.useState("");
+  const [UserEmail, setUserEmail] = React.useState("");
 
   React.useEffect(() => {
     // рендер страницы
@@ -62,16 +62,18 @@ function App() {
         setCards(dataCards);
       })
       .catch((err) => console.log(err))
-  }, [])
+  }, []);
 
+  // UserData
   React.useEffect(() => {
     checkToken()
   }, [])
+
   React.useEffect(() => {
     if(loggedIn) {
       history.push("/")
     }
-  }, [])
+  }, [loggedIn])
 
   // управление попапом изменение аватарки
   function handleEditAvatarClick() {
@@ -181,6 +183,7 @@ function App() {
   }
 
   function handleRegister(password, email) {
+    setLoader(true);
     return (
       MestoAuth.register(password, email)
     .then((res) => {
@@ -198,30 +201,31 @@ function App() {
   }
 
   function handleLogin(email, password) {
+    setLoader(true);
     return (MestoAuth.authorize(email, password)
     .then((res) => {
-      console.log(res)
       if (!res) {
         unsuccessfulRegister()
+        setLoader(false);
       }
       if(res.token) {
         localStorage.setItem('jwt', res.token);
-        setIsLoggedIn(true)
+        setIsLoggedIn(true);
+        setLoader(false);
+        history.push("/");
       }
-      
     })
     );
   }
 
   function checkToken() {
-
     if(localStorage.getItem("jwt")) {
       let jwt = localStorage.getItem("jwt");
       MestoAuth.getContent(jwt)
       .then((res) => {
         if(res) {
-          const {email} = res;
-          setUserData(email);
+          const {email} = res.data;
+          setUserEmail(email);
           setIsLoggedIn(true);
           history.push("/");
         }
@@ -229,7 +233,12 @@ function App() {
     }
   }
 
+  function handleExit () {
+    setUserEmail("")
+  }
+
   function unsuccessfulRegister () {
+    setLoader(false);
     setIssuccesRegister(false);
     setOpenPopupRegister(true);
   }
@@ -238,10 +247,10 @@ function App() {
     <currentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="page__container">
-          <Header loggedIn={loggedIn}/>
+          <Header loggedIn={loggedIn} email={UserEmail} handleExit={handleExit}/>
           <Switch>
             <Route path="/sign-in">
-              <Login handleLogin={handleLogin} unsuccessfulRegister={unsuccessfulRegister}/>
+              <Login setLoader={setLoader} handleLogin={handleLogin} unsuccessfulRegister={unsuccessfulRegister}/>
             </Route>
             <Route path="/sign-up">
               <Register unsuccessfulRegister={unsuccessfulRegister} handleRegister={handleRegister}/>
@@ -257,7 +266,7 @@ function App() {
                 loggedIn={loggedIn}
             />
             <Route>
-              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+              {loggedIn ? <Redirect exact to="/" /> : <Redirect to="/sign-in" />}
             </Route>
           </Switch>
           <Footer />

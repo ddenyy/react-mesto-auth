@@ -7,3 +7,9 @@
   font-size: 18px;
   line-height: 22px;
 }
+
+.header__button_crossing:hover {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s linear;
+}

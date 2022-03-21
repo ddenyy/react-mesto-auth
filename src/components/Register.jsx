@@ -27,7 +27,7 @@ function Register({ handleRegister, unsuccessfulRegister }) {
       <form onSubmit={handleSubmit} name="form_register" className="form register__content">
         <input className="register__input" name="email" value={email} onChange={handleChange} type="text" placeholder="Email"></input>
         <input className="register__input" name="password" value={password} onChange={handleChange} type="password" placeholder="пароль"></input>
-        <button type="submit" className="register__button register__button_submit">Зарегистрироваться</button>
+        <button type="submit" className="register__button">Зарегистрироваться</button>
       </form>
       <h3 className="register__caption">Уже зарегистрированы ?<button className="register__button_enter" type="button">Войти</button></h3>
     </div>
