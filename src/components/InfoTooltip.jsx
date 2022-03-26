@@ -1,14 +1,11 @@
- 
-
-
- function InfoTooltip ({onClose, name, isOpen, loggedIn, isRegister}) {
+function InfoTooltip ({onClose, name, isOpen, isRegister, text}) {
      return (
         <div className={`popup popup_type_${name} ${isOpen && "popup_opened"}`}>
         <div className="popup__window">
-          <button type="button" className={`popup__button-exit popup__button-exit_place_${name}`} onClick={onClose} ></button>
+          <button type="button" className={`popup__button-exit popup__button-exit_place_${name}`} onClick={onClose}></button>
           <div className={`popup__picture_access ${isRegister ? "" : "popup__picture_access_error"}`}></div>
           
-          <p className="popup__title_access">{isRegister ? "Вы успешно зарегистрировались !" : "что-то пошло не так :("}</p>
+          <p className="popup__title_access">{text}</p>
         </div>
       </div>
      );

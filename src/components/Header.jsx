@@ -5,19 +5,8 @@ import { Link, useHistory, Route } from 'react-router-dom';
 function Header({ email, handleExit }) {
   const history = useHistory();
   
-  const checkRoute = () => {
-    switch(window.location.pathname) {
-      case "/sign-in":   
-        history.push("/sign-up")
-        break;
-      case "/sign-up":  
-        history.push("/sign-in");
-        break;
-      case "/":
-        handleExit()
-        history.push("/sign-in");
-        break;
-    }
+  const handleEmail = () => {
+    handleExit();
   }
 
   return (
@@ -26,13 +15,13 @@ function Header({ email, handleExit }) {
       <div className="header__info">
         <p className="header__email">{email}</p>
         <Route path="/sign-up">
-          <button onClick={checkRoute} className="register__button_enter " type="button">Войти</button>
+          <Link className="register__button_enter" to="/sign-in">Войти</Link>
         </Route>
         <Route path="/sign-in">
-          <button onClick={checkRoute} className="register__button_enter " type="button">Регистрация</button>
+          <Link to="/sign-up" className="register__button_enter">Регистрация</Link>
         </Route>
         <Route exact path="/">
-          <button onClick={checkRoute} className="register__button_enter " type="button">Выйти</button>
+          <Link onClick={handleEmail}  to="/sign-in" className="register__button_enter">Выйти</Link>
         </Route>
       </div>
     </header>

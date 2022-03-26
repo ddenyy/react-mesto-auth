@@ -40,7 +40,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     <PopupWithForm onSubmit={handleSubmit} name="edit_profile" title="редактировать профиль" submitText="Сохранить" isOpen={isOpen} onClose={onClose}>
       <fieldset className="popup__contact-info">
         <div className="input-container">
-          <input value={name} onChange={handleСhangeName} name="user-name" type="text" className="popup__input" id="popup-edit-username" placeholder="Введите имя" autoComplete="off" required minLength="2" maxLength="40" />
+          <input value={name || ''} onChange={handleСhangeName} name="user-name" type="text" className="popup__input" id="popup-edit-username" placeholder="Введите имя" autoComplete="off" required minLength="2" maxLength="40" />
           <span className="error-message popup-edit-username-error">test</span>
         </div>
         <div className="input-container">

@@ -18,7 +18,6 @@ function Register({ handleRegister, unsuccessfulRegister }) {
   function handleSubmit(e) {
     e.preventDefault();
     handleRegister(email, password)
-      .catch((e) => unsuccessfulRegister())
   }
 
   return (

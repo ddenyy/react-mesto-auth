@@ -17,12 +17,7 @@ import Register from "./Register.jsx";
 import Login from "./Login.jsx";
 import ProtectRoute from './ProtectedRoute.jsx';
 import InfoTooltip from "./InfoTooltip.jsx";
-import * as MestoAuth from "./MestoAuth.js"
-
-
-// MestoAuth.register("somepasswoфывrd","emaiфывl@yandex.ru")
-// .then((res) => {console.log(res)})
-// .catch((err) => {console.log(err)})
+import * as MestoAuth from "../utils/MestoAuth.js"
 
 function App() {
   // стейт открытия попапа редактирования профиля 
@@ -56,12 +51,14 @@ function App() {
 
   React.useEffect(() => {
     // рендер страницы
-    api.renderUserAndCards()
-      .then(([currentUserInfo, dataCards]) => {
-        setCurrentUser(currentUserInfo);
-        setCards(dataCards);
-      })
-      .catch((err) => console.log(err))
+    if (currentUser || loggedIn) {
+      api.renderUserAndCards()
+        .then(([currentUserInfo, dataCards]) => {
+          setCurrentUser(currentUserInfo);
+          setCards(dataCards);
+        })
+        .catch((err) => console.log(err))
+    }
   }, []);
 
   // UserData
@@ -70,7 +67,7 @@ function App() {
   }, [])
 
   React.useEffect(() => {
-    if(loggedIn) {
+    if (loggedIn) {
       history.push("/")
     }
   }, [loggedIn])
@@ -186,115 +183,128 @@ function App() {
     setLoader(true);
     return (
       MestoAuth.register(password, email)
-    .then((res) => {
-      if(res.data.email) {
-        console.log(res)
-        setIssuccesRegister(true);
-        setOpenPopupRegister(true);
-        history.push("/sign-in")
-      }
-      else {
-        throw new Error("Что-то пошло не так!")
-      }
-    })
+        .then((res) => {
+          if (res.data.email) {
+            console.log(res)
+            setIssuccesRegister(true);
+            setOpenPopupRegister(true);
+            setLoader(false);
+            history.push("/sign-in")
+          }
+          else {
+            throw new Error("Что-то пошло не так!")
+          }
+        })
+        .catch((e) => unsuccessfulRegister())
     );
   }
 
   function handleLogin(email, password) {
     setLoader(true);
     return (MestoAuth.authorize(email, password)
-    .then((res) => {
-      if (!res) {
-        unsuccessfulRegister()
-        setLoader(false);
-      }
-      if(res.token) {
-        localStorage.setItem('jwt', res.token);
-        setIsLoggedIn(true);
-        setLoader(false);
-        history.push("/");
-      }
-    })
+      .then((res) => {
+        if (!res) {
+          unsuccessfulRegister()
+          setLoader(false);
+        }
+        if (res.token) {
+          localStorage.setItem('jwt', res.token);
+          setIsLoggedIn(true);
+          setLoader(false);
+          history.push("/");
+        }
+      })
+      .catch(e => console.log(e))
     );
   }
 
   function checkToken() {
-    if(localStorage.getItem("jwt")) {
-      let jwt = localStorage.getItem("jwt");
+    let jwt = localStorage.getItem("jwt");
+    if (jwt) {
       MestoAuth.getContent(jwt)
-      .then((res) => {
-        if(res) {
-          const {email} = res.data;
-          setUserEmail(email);
-          setIsLoggedIn(true);
-          history.push("/");
-        }
-      })
+        .then((res) => {
+          if (res) {
+            const { email } = res.data;
+            setUserEmail(email);
+            setIsLoggedIn(true);
+            history.push("/");
+          }
+        })
+        .catch(e => console.log(e))
     }
   }
 
-  function handleExit () {
+  function handleExit() {
     setUserEmail("")
   }
 
-  function unsuccessfulRegister () {
+  function unsuccessfulRegister() {
     setLoader(false);
     setIssuccesRegister(false);
     setOpenPopupRegister(true);
+  }
+
+  function handleTextInfoTooltip() {
+    if (succesRegister) {
+      return "Вы успешно зарегистрировались !"
+    }
+    else{
+     return "что-то пошло не так :("
+    }
   }
 
   return (
     <currentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="page__container">
-          <Header loggedIn={loggedIn} email={UserEmail} handleExit={handleExit}/>
+          <Header loggedIn={loggedIn} email={UserEmail} handleExit={handleExit} />
           <Switch>
             <Route path="/sign-in">
-              <Login setLoader={setLoader} handleLogin={handleLogin} unsuccessfulRegister={unsuccessfulRegister}/>
+              <Login setLoader={setLoader} handleLogin={handleLogin} unsuccessfulRegister={unsuccessfulRegister} />
             </Route>
             <Route path="/sign-up">
-              <Register unsuccessfulRegister={unsuccessfulRegister} handleRegister={handleRegister}/>
+              <Register unsuccessfulRegister={unsuccessfulRegister} handleRegister={handleRegister} />
             </Route>
             <ProtectRoute exact path="/" cards={cards}
-                onCardLike={handleCardLike}
-                onCardDelete={handleOpenPopupDelete}
-                onEditAvatar={handleEditAvatarClick}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onCardClick={handleCardClick}
-                component={Main}
-                loggedIn={loggedIn}
+              onCardLike={handleCardLike}
+              onCardDelete={handleOpenPopupDelete}
+              onEditAvatar={handleEditAvatarClick}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onCardClick={handleCardClick}
+              component={Main}
+              loggedIn={loggedIn}
             />
             <Route>
               {loggedIn ? <Redirect exact to="/" /> : <Redirect to="/sign-in" />}
             </Route>
           </Switch>
           <Footer />
-              <EditProfilePopup
-                onUpdateUser={handleUpdateUser}
-                isOpen={isEditProfilePopupOpen}
-                onClose={closeAllPopups}
-              />
-              <AddPlacePopup
-                isOpen={isAddPlacePopupOpen}
-                onClose={closeAllPopups}
-                onAddPlace={handleAddPlace}
-              />
-              <ImagePopup
-                card={selectedCard}
-                onClose={closeAllPopups} />
-              <EditAvatarPopup
-                isOpen={isEditAvatarPopupOpen}
-                onClose={closeAllPopups}
-                onUpdateAvatar={handleUpdateAvatar}
-              />
-              <Loader isOpen={isLoader} />
-              <AcceptDeleteCardPopup
-                isAccept={handleAcceptDelete}
-                onClose={closeAllPopups}
-                isOpen={isAcceptDeletePopupOpen}
-              />
-              <InfoTooltip onClose={closeAllPopups} isRegister={succesRegister} isOpen={PopupRegister} loggedIn={loggedIn}/>
+          <EditProfilePopup
+            onUpdateUser={handleUpdateUser}
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+          />
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onAddPlace={handleAddPlace}
+          />
+          <ImagePopup
+            card={selectedCard}
+            onClose={closeAllPopups} />
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+          />
+          <Loader isOpen={isLoader} />
+          <AcceptDeleteCardPopup
+            isAccept={handleAcceptDelete}
+            onClose={closeAllPopups}
+            isOpen={isAcceptDeletePopupOpen}
+          />
+          <InfoTooltip text={handleTextInfoTooltip()} onClose={closeAllPopups} isRegister={succesRegister} isOpen={PopupRegister}/>
         </div>
       </div>
 
