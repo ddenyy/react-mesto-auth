@@ -1,4 +1,6 @@
-function InfoTooltip ({onClose, name, isOpen, isRegister, text}) {
+function InfoTooltip ({onClose, name, isOpen, isRegister, text, useEscapePress}) {
+
+useEscapePress(onClose, isOpen)
      return (
         <div className={`popup popup_type_${name} ${isOpen && "popup_opened"}`}>
         <div className="popup__window">

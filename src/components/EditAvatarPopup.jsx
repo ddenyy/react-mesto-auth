@@ -1,7 +1,7 @@
 import PopupWithForm from "./PopupWithForm.jsx";
 import React from 'react';
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, useEscapePress}) {
 
   const inputRef = React.useRef();
   function handleSubmit(e) {
@@ -13,7 +13,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
   }
 
   return (
-    <PopupWithForm onSubmit={handleSubmit} name="change_avatar" title="Обновить аватар" submitText="Сохранить" isOpen={isOpen} onClose={onClose}>
+    <PopupWithForm onSubmit={handleSubmit} name="change_avatar" title="Обновить аватар" submitText="Сохранить" isOpen={isOpen} onClose={onClose} useEscapePress={useEscapePress}>
       <fieldset className="popup__contact-info">
         <div className="input-container input-container_single">
           <input ref={inputRef} name="avatar-image" type="url" className="popup__input" id="popup-change-avatar" autoComplete="off" placeholder="Ссылка на картинку" required />

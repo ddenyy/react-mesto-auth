@@ -2,7 +2,7 @@ import PopupWithForm from "./PopupWithForm.jsx";
 import React from "react";
 import { currentUserContext } from "../contexts/CurrentUserContext";
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, useEscapePress}) {
 
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -37,7 +37,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   }
 
   return (
-    <PopupWithForm onSubmit={handleSubmit} name="edit_profile" title="редактировать профиль" submitText="Сохранить" isOpen={isOpen} onClose={onClose}>
+    <PopupWithForm onSubmit={handleSubmit} name="edit_profile" title="редактировать профиль" submitText="Сохранить" isOpen={isOpen} onClose={onClose} useEscapePress={useEscapePress} >
       <fieldset className="popup__contact-info">
         <div className="input-container">
           <input value={name || ''} onChange={handleСhangeName} name="user-name" type="text" className="popup__input" id="popup-edit-username" placeholder="Введите имя" autoComplete="off" required minLength="2" maxLength="40" />

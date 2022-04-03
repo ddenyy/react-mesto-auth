@@ -1,5 +1,8 @@
 
-function PopupWithForm({name, title, submitText, onClose, isOpen, onSubmit, children}) {
+function PopupWithForm({name, title, submitText, onClose, isOpen, onSubmit, children, useEscapePress}) {
+
+  // навешиваем обработчик по нажитию Esc
+ useEscapePress(onClose, isOpen);
   return (
     <div className={`popup popup_type_${name} ${isOpen && "popup_opened"}`}>
       <div className="popup__window">

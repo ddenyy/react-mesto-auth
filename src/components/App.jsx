@@ -28,6 +28,8 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   // стейт для открытия попапа подтверждения удаления
   const [isAcceptDeletePopupOpen, setIsAcceptDeletePopupOpen] = React.useState(false);
+  // стейт для открытия попапа на весь экран картинки
+  const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
   // // стейт для удалённой карточки
   const [cardDelete, isCardDelete] = React.useState({});
   // стейт для открытия карточки на весь экран
@@ -94,11 +96,7 @@ function App() {
     setSelectedCard({ name: '', link: '' });
     setIsAcceptDeletePopupOpen(false);
     setOpenPopupRegister(false);
-  }
-
-  // управление открытием картинки на весь экран 
-  function handleCardClick(data) {
-    setSelectedCard(data)
+    setIsImagePopupOpen(false);
   }
 
   function handleUpdateUser(data) {
@@ -235,7 +233,10 @@ function App() {
   }
 
   function handleExit() {
-    setUserEmail("")
+    localStorage.removeItem('jwt');
+    setUserEmail("");
+    setIsLoggedIn(false);
+    history.push('/sign-in');
   }
 
   function unsuccessfulRegister() {
@@ -248,10 +249,35 @@ function App() {
     if (succesRegister) {
       return "Вы успешно зарегистрировались !"
     }
-    else{
-     return "что-то пошло не так :("
+    else {
+      return "что-то пошло не так :("
     }
   }
+
+
+  function useEscapePress(callback, dependency) {
+    React.useEffect(() => {
+      if (dependency) {
+        const onEscClose = e => {
+          if (e.key === 'Escape') {
+            callback()
+          }
+        }
+        document.addEventListener('keyup', onEscClose);
+        // при размонтировании удалим обработчик данным колбэком
+        return () => {
+          document.removeEventListener('keyup', onEscClose)
+        };
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dependency])
+  }
+
+  function handleCardClick(data) {
+    setIsImagePopupOpen(true);
+    setSelectedCard(data);
+  }
+
 
   return (
     <currentUserContext.Provider value={currentUser}>
@@ -284,27 +310,40 @@ function App() {
             onUpdateUser={handleUpdateUser}
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
+            useEscapePress={useEscapePress}
           />
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlace}
+            useEscapePress={useEscapePress}
           />
           <ImagePopup
             card={selectedCard}
-            onClose={closeAllPopups} />
+            onClose={closeAllPopups}
+            useEscapePress={useEscapePress}
+            isOpen = {isImagePopupOpen}
+          />
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
+            useEscapePress={useEscapePress}
           />
           <Loader isOpen={isLoader} />
           <AcceptDeleteCardPopup
             isAccept={handleAcceptDelete}
             onClose={closeAllPopups}
             isOpen={isAcceptDeletePopupOpen}
+            useEscapePress={useEscapePress}
           />
-          <InfoTooltip text={handleTextInfoTooltip()} onClose={closeAllPopups} isRegister={succesRegister} isOpen={PopupRegister}/>
+          <InfoTooltip
+            text={handleTextInfoTooltip()}
+            onClose={closeAllPopups}
+            isRegister={succesRegister}
+            isOpen={PopupRegister}
+            useEscapePress={useEscapePress}
+          />
         </div>
       </div>
 

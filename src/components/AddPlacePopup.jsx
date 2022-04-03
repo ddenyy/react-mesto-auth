@@ -1,7 +1,7 @@
 import PopupWithForm from "./PopupWithForm.jsx";
 import React from "react"
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace, canClean }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, useEscapePress}) {
 
   const [pictureName, setPictureName] = React.useState("");
   const [pictureLink, setPictureLink] = React.useState("");
@@ -34,7 +34,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, canClean }) {
 
 
   return (
-    <PopupWithForm onSubmit={handleAddPlaceSubmit} name="add_picture" title="Новое место" submitText="Добавить" isOpen={isOpen} onClose={onClose}>
+    <PopupWithForm onSubmit={handleAddPlaceSubmit} name="add_picture" title="Новое место" submitText="Добавить" isOpen={isOpen} onClose={onClose} useEscapePress={useEscapePress}>
       <fieldset className="popup__contact-info">
         <div className="input-container">
           <input value={pictureName} onChange={handleСhangePictureName} name="picture-name" type="text" className="popup__input" id="popup-picture-name" autoComplete="off" placeholder="Название" required minLength="2" maxLength="30" />
