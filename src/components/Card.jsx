@@ -7,7 +7,7 @@ function Card({card, onCardClick, onCardLike, onCardDelete}) {
   
   const currentUserData = React.useContext(currentUserContext)
   
-  const isLiked = card.likes.some(i => i._id === currentUserData._id);
+  const isLiked = card.likes.some(i => i === currentUserData._id);
 
   function handleClick() {
     onCardClick(card);
@@ -20,10 +20,10 @@ function Card({card, onCardClick, onCardLike, onCardDelete}) {
   function handleCardDelete () {
     onCardDelete(card)
   }
-
+  // console.log(card)
   return (
     <article className="place">
-      {card.owner._id === currentUserData._id ? <button onClick={handleCardDelete} className="place__button-delete"></button> : <></>}
+      {card.owner === currentUserData._id ? <button onClick={handleCardDelete} className="place__button-delete"></button> : <></>}
       <img className="place__image" src={card.link} alt={card.name} onClick={handleClick} />
       <div className="place__item">
         <h2 className="place__title">{card.name}</h2>

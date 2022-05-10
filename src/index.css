@@ -214,3 +214,7 @@
 @import url(./blocks/header/header__email/header__email.css);
 
 @import url(./blocks/header/header__info/header__info.css);
+
+@import url(./blocks/Register/register__label/register__label.css);
+
+@import url(./blocks/Register/register__error/register__error.css)

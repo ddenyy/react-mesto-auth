@@ -10,7 +10,7 @@
 }
 
 .register__input:first-child {
-    margin-bottom: 30px;
+    margin-bottom: 5px;
 }
 .register__input:active {
     border-bottom: 1px solid #FFFFFF;

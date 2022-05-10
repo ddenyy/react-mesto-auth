@@ -54,14 +54,14 @@ function App() {
   React.useEffect(() => {
     // рендер страницы
     if (currentUser || loggedIn) {
-      api.renderUserAndCards()
+      return api.renderUserAndCards()
         .then(([currentUserInfo, dataCards]) => {
-          setCurrentUser(currentUserInfo);
-          setCards(dataCards);
+          setCurrentUser(currentUserInfo.data);
+          setCards(dataCards.data);
         })
         .catch((err) => console.log(err))
     }
-  }, []);
+  }, [loggedIn]);
 
   // UserData
   React.useEffect(() => {
@@ -103,7 +103,7 @@ function App() {
     setLoader(true);
     api.updateUserInfo(data)
       .then((newData) => {
-        setCurrentUser(newData);
+        setCurrentUser(newData.data);
       })
       .then(() => {
         closeAllPopups()
@@ -116,7 +116,7 @@ function App() {
     setLoader(true)
     api.updateUserAvatar(data.avatar)
       .then((newData) => {
-        setCurrentUser(newData);
+        setCurrentUser(newData.data);
         closeAllPopups()
       })
       .catch((err) => { console.log(err) })
@@ -124,23 +124,24 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
     if (!isLiked) {
       api.setLike(card)
         .then((newCard) => {
-          setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+          return setCards((state) => state.map((c) => c._id === card._id ? newCard.card : c));
         })
         .catch((err) => console.log(err))
     }
     else {
       api.deleteLike(card)
         .then((newCard) => {
-          setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
+         return setCards((state) => state.map((c) => c._id === card._id ? newCard.card : c));
         })
         .catch((err) => { console.log(err) })
     }
-  }
 
+  }
+ 
   // ф-ция подтверждения удаления
   function handleAcceptDelete() {
     handleCardDelete(cardDelete)

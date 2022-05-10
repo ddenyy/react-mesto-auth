@@ -1,13 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import api from "../utils/Api.js";
 import Card from "./Card.jsx";
 import {currentUserContext} from "../contexts/CurrentUserContext";
 function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, cards, onCardLike, onCardDelete}) {
-  
   // подписываемся на контекст из currentUser
   const currentUserData = React.useContext(currentUserContext);
- 
+  
   return (
     <div className="content page__content">
       <section className="profile content__profile">
