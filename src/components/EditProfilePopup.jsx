@@ -28,7 +28,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, useEscapePress}) {
 
     onUpdateUser({
       name: values.name,
-      about: values.job,
+      about: values.about,
     });
   }
 
@@ -40,8 +40,8 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, useEscapePress}) {
           <span className="error-message popup-edit-username-error">{errors.name || ''}</span>
         </div>
         <div className="input-container">
-          <input value={values.job || ''} onChange={handleChange} name="job" type="text" className="popup__input" id="popup-edit-job" autoComplete="off" placeholder="чем занимаетесь ?" required minLength="2" maxLength="200" />
-          <span className={`error-message popup-edit-job-error ${!isValid && 'error-message_shown'}`}>{errors.job || ''}</span>
+          <input value={values.about || ''} onChange={handleChange} name="about" type="text" className="popup__input" id="popup-edit-job" autoComplete="off" placeholder="чем занимаетесь ?" required minLength="2" maxLength="200" />
+          <span className={`error-message popup-edit-job-error ${!isValid && 'error-message_shown'}`}>{errors.about || ''}</span>
         </div>
       </fieldset>
     </PopupWithForm>

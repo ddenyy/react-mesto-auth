@@ -27,7 +27,7 @@ function Login({ handleLogin, unsuccessfulRegister }) {
           </span>
         </label>
         <label className="register__label">
-          <input className="register__input" minLength={2} type="password" placeholder="пароль" name="password" value={values.password || ''} onChange={handleChange} />
+          <input className="register__input" minLength={8} type="password" placeholder="пароль" name="password" value={values.password || ''} onChange={handleChange} />
           <span className="register__error" id="password-error">
             {errors.password || ''}
           </span>

@@ -1,20 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useFormWithValidation from '../hooks/useFormWithValidation.jsx';
+
 function Register({ handleRegister, unsuccessfulRegister }) {
-  // const [registerData, setRegisterData] = React.useState({
-  //   email: '',
-  //   password: '',
-  // });
+
   const { values, handleChange, resetForm, errors, isValid } = useFormWithValidation();
-
-
-  // function handleChange(e) {
-  //   setRegisterData({
-  //     ...registerData,
-  //     [e.target.name]: e.target.value
-  //   })
-  // }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -36,7 +26,7 @@ function Register({ handleRegister, unsuccessfulRegister }) {
           </span>
         </label>
         <label className="register__label">
-          <input className="register__input" name="password" value={values.password || ''} onChange={handleChange} type="password" placeholder="пароль" minLength="2"/>
+          <input className="register__input" name="password" value={values.password || ''} onChange={handleChange} type="password" placeholder="пароль" minLength="8"/>
           <span className="register__error" id="password-error">
           {errors.password || ''}
           </span>

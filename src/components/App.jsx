@@ -184,7 +184,6 @@ function App() {
       MestoAuth.register(password, email)
         .then((res) => {
           if (res.data.email) {
-            console.log(res)
             setIssuccesRegister(true);
             setOpenPopupRegister(true);
             setLoader(false);
@@ -222,7 +221,7 @@ function App() {
     if (jwt) {
       MestoAuth.getContent(jwt)
         .then((res) => {
-          if (res) {
+          if (res.data) {
             const { email } = res.data;
             setUserEmail(email);
             setIsLoggedIn(true);

@@ -4,7 +4,6 @@ import useFormWithValidation from '../hooks/useFormWithValidation.jsx';
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, useEscapePress}) {
   const {values, handleChange, resetForm, errors, isValid} = useFormWithValidation();
 
-  const inputRef = React.useRef();
   function handleSubmit(e) {
     e.preventDefault();
     onUpdateAvatar({
