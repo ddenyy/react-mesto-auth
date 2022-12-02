@@ -24,6 +24,8 @@
 
 @import url(../src/blocks/header/header.css);
 
+@import url(../src/blocks/header/header__button/header__button_profile/header__button_profile.css);
+
 /*элемент image*/
 
 @import url(../src/blocks/header/__image/header__image.css);

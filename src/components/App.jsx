@@ -3,6 +3,7 @@ import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import Header from "./Header.jsx";
 import Main from "./Main.jsx";
+import UserProfile from './UserProfile.jsx';
 import Footer from "./Footer.jsx";
 import PopupWithForm from "./PopupWithForm.jsx";
 import ImagePopup from "./ImagePopup.jsx";
@@ -285,6 +286,13 @@ function App() {
         <div className="page__container">
           <Header loggedIn={loggedIn} email={UserEmail} handleExit={handleExit} />
           <Switch>
+          <Route path ="/profile">
+                <UserProfile 
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={handleCardClick}
+                cards={cards}
+                />
+          </Route>
             <Route path="/sign-in">
               <Login setLoader={setLoader} handleLogin={handleLogin} unsuccessfulRegister={unsuccessfulRegister} />
             </Route>
