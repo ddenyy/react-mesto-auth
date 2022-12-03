@@ -239,7 +239,7 @@ function App() {
     setIsLoggedIn(false);
     history.push('/sign-in');
   }
-
+  // попап который выведет грустный крестик
   function unsuccessfulRegister() {
     setLoader(false);
     setIssuccesRegister(false);
@@ -354,8 +354,6 @@ function App() {
           />
         </div>
       </div>
-
-
     </currentUserContext.Provider>
   );
 }

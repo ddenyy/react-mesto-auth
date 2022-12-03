@@ -19,3 +19,4 @@ ReactDOM.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
+//"deploy": "npm run build && scp -r ./build/* ddennios@51.250.86.200:/home/ddennios/react-mesto-api-full/mesto-frontend"

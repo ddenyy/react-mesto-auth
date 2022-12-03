@@ -1,4 +1,4 @@
-// const BASE_URL = "https://api.mesto-frontend.nomoredomains.work";
+//const BASE_URL = "https://api.mesto-frontend.nomoredomains.work";
 
 const BASE_URL = "http://localhost:3005";
 

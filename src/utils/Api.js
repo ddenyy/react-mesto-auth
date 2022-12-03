@@ -107,7 +107,7 @@ class Api {
 
 // класс для работы в api сервера
 const api = new Api({
-  // baseUrl: 'https://api.mesto-frontend.nomoredomains.work',
+  //baseUrl: 'https://api.mesto-frontend.nomoredomains.work',
   baseUrl: "http://localhost:3005",
   headers: {
     'Content-Type': 'application/json',
